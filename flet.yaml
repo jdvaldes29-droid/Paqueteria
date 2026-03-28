@@ -1,14 +1,10 @@
 app:
-  name: Paqueteria Express
-  org: com.paqueteria
+  name: Paqueteria
+  description: Sistema de logística de última milla
 
-android:
-  package_name: com.paqueteria.express
-  permissions:
-    - INTERNET
-    - ACCESS_FINE_LOCATION
-    - ACCESS_COARSE_LOCATION
-    - CAMERA
+build:
+  apk:
+    entrypoint: main.py
 
 flutter:
   dependency_overrides:
@@ -23,3 +19,4 @@ build:
 
 assets:
   - assets/
+
