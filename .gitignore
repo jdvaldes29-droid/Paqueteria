@@ -4,3 +4,7 @@ build/
 .flet/
 flet-build-template/
 *.pyc
+
+git add .gitignore
+git commit -m "ignore flet build template"
+git push
