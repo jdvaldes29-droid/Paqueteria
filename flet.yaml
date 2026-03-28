@@ -1,22 +1,7 @@
 app:
   name: Paqueteria
-  description: Sistema de logística de última milla
+  description: Sistema de logística
 
 build:
   apk:
     entrypoint: main.py
-
-flutter:
-  dependency_overrides:
-    serious_python:
-      git:
-        url: https://github.com/flet-dev/serious-python.git
-        ref: main
-
-build:
-  apk:
-    entrypoint: main.py
-
-assets:
-  - assets/
-
