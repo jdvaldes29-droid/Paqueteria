@@ -16,3 +16,10 @@ flutter:
       git:
         url: https://github.com/flet-dev/serious-python.git
         ref: main
+
+build:
+  apk:
+    entrypoint: main.py
+
+assets:
+  - assets/
