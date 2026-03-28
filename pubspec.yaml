@@ -1,0 +1,22 @@
+name: paqueteria_express
+description: Sistema profesional de paquetería
+
+environment:
+  sdk: "^3.0.0"
+
+flutter_icons:
+  android: true
+  ios: false
+  image_path: "assets/icon.png"
+
+flutter:
+  assets:
+    - assets/icon.png
+
+flutter_native_splash:
+  color: "#0A3D62"
+  image: assets/icon.png
+  android: true
+
+
+  

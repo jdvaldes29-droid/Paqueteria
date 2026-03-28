@@ -1,0 +1,18 @@
+app:
+  name: Paqueteria Express
+  org: com.paqueteria
+
+android:
+  package_name: com.paqueteria.express
+  permissions:
+    - INTERNET
+    - ACCESS_FINE_LOCATION
+    - ACCESS_COARSE_LOCATION
+    - CAMERA
+
+flutter:
+  dependency_overrides:
+    serious_python:
+      git:
+        url: https://github.com/flet-dev/serious-python.git
+        ref: main
