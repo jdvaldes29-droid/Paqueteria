@@ -35,6 +35,11 @@ jobs:
 
       - name: Setup Gradle cache
         uses: gradle/actions/setup-gradle@v3
+        
+      - name: Fix Kotlin compatibility
+        run: |
+          mkdir -p android
+          echo "kotlin.version=1.9.24" >> android/gradle.properties  
 
       - name: Build APK
         run: |
