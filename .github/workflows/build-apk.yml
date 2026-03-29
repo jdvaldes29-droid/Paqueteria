@@ -7,46 +7,47 @@ on:
 
 jobs:
   build-apk:
+
     runs-on: ubuntu-latest
 
     steps:
 
-      - name: Checkout repository
-        uses: actions/checkout@v4
+    - name: Checkout repository
+      uses: actions/checkout@v4
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.11"
 
-      - name: Install Python dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install flet supabase python-dotenv
+    - name: Install Python dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
 
-      - name: Install Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: "3.41.4"
-          channel: stable
+    - name: Install Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: "3.41.4"
 
-      - name: Accept Android licenses
-        run: yes | flutter doctor --android-licenses
+    - name: Accept Android licenses
+      run: yes | flutter doctor --android-licenses
 
-      - name: Setup Gradle cache
-        uses: gradle/actions/setup-gradle@v3
-        
-      - name: Fix Kotlin compatibility
-        run: |
-          mkdir -p android
-          echo "kotlin.version=1.9.24" >> android/gradle.properties  
+    - name: Enable Flutter cache
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.pub-cache
+          ~/.gradle/caches
+        key: flutter-cache-${{ runner.os }}
 
-      - name: Build APK
-        run: |
-          flet build apk --verbose
+    - name: Build APK
+      run: |
+        export FLET_BUILD_NO_PROMPT=1
+        flet build apk --verbose
 
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: paqueteria-apk
-          path: build/apk/
+    - name: Upload APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: paqueteria-apk
+        path: build/apk/

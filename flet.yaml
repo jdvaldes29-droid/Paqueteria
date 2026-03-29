@@ -1,8 +1,7 @@
 app:
   name: Paqueteria
-  org: com.paqueteria
-  product: Paqueteria
+  version: 1.0.0
+  entry: app/app.py
 
-build:
-  apk:
-    split_per_abi: false
+assets:
+  - assets/
