@@ -1,3 +1,4 @@
 flet==0.27.6
+flet -runtime
 supabase==2.3.0
 python-dotenv==1.0.1
