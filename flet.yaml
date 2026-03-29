@@ -1,7 +1,8 @@
 app:
   name: Paqueteria
-  description: Sistema de logística
+  org: com.paqueteria
+  product: Paqueteria
 
 build:
   apk:
-    entrypoint: main.py
+    split_per_abi: false
