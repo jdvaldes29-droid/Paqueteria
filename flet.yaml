@@ -1,7 +1,7 @@
 app:
   name: Paqueteria
   version: 1.0.0
-  entry: app/app.py
+  entry: app/app:main
 
 assets:
   - assets/
