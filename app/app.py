@@ -57,7 +57,7 @@ def main(page: ft.Page):
     # ---------------- UI BASE ----------------
 
     page.title = "Paquetería Express"
-    page.add (ft.Text("Panel Repartidor"))
+    page.add (ft.Text("Panel"))
     page.assets_dir = "assets"
     page.window_width = 420
     page.window_height = 720
@@ -175,7 +175,7 @@ def main(page: ft.Page):
 
 
 # -------------------------------------------------
-# EJECUCIÓN
+# EJECUCIÓN     ft.app(target=main)
 # -------------------------------------------------
 
-ft.app(target=main)
+
