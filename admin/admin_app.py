@@ -200,5 +200,5 @@ def main(page: ft.Page):
 # EJECUTAR APP
 # --------------------------------
 
-if __name__ == "__main__":
+#if __name__ == "__main__":
     ft.app(target=main)
