@@ -1,0 +1,10 @@
+[project]
+name = "paqueteria"
+version = "0.1.0"
+
+dependencies = [
+    "flet==0.27.6",
+    "flet-runtime",
+    "supabase",
+    "python-dotenv"
+]
