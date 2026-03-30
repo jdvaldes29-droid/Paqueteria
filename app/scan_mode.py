@@ -130,34 +130,13 @@ def vista_scan(page: ft.Page, usuario: dict, volver):
         codigo_input.focus()
 
     # ---------------- CAMARA ----------------
+    
     def abrir_camara(e):
 
-        def on_message(msg):
-            codigo = msg.data
-            if codigo:
-                dialog.open = False
-                page.update()
-                procesar_codigo(codigo)
-
-        web = ft.WebView(
-            url="assets/scanner.html",
-            expand=True,
-            on_message=lambda e: on_message(e),
+        page.launch_url(
+            "https://scanqr.org/",
+            web_window_name="_self"
         )
-
-        dialog = ft.AlertDialog(
-            modal=True,
-            content=ft.Container(
-                width=400,
-                height=500,
-                content=web,
-            ),
-        )
-
-        page.dialog = dialog
-        dialog.open = True
-        page.update()
-
     # ---------------- VIEW ----------------
     view = ft.Column(
         [
