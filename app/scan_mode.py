@@ -25,9 +25,11 @@ def cargar_paquetes_cache(repartidor_id):
 
 # ---------------- BUSCAR ----------------
 def buscar_paquete(codigo):
+
     for p in paquetes_cache:
         if p.get("codigo") == codigo:
             return p
+
     return None
 
 
@@ -50,22 +52,13 @@ def evaluar_estado(paquete):
     return "OK"
 
 
-# ---------------- VISTA ----------------
+# ---------------- VISTA SCAN ----------------
 def vista_scan(page: ft.Page, usuario: dict, volver):
-
-    beep = ft.Audio(src="assets/beep.mp3", autoplay=False)
-    page.overlay.append(beep)
 
     resultado = ft.Text(size=22, weight="bold")
     detalle = ft.Text(size=16)
 
-    codigo_input = ft.TextField(
-        label="Escanear código (manual o scanner)",
-        autofocus=True,
-        on_submit=lambda e: procesar_codigo(e.control.value),
-    )
-
-    # ---------------- PROCESO ----------------
+    # ---------------- PROCESAR CODIGO ----------------
     def procesar_codigo(codigo):
 
         codigo = (codigo or "").strip()
@@ -75,30 +68,34 @@ def vista_scan(page: ft.Page, usuario: dict, volver):
 
         paquete = buscar_paquete(codigo)
 
-        # ❌ NO EXISTE
+        # ❌ NO ENCONTRADO
         if not paquete:
+
             resultado.value = "❌ NO ENCONTRADO"
             detalle.value = codigo
-            beep.play()
+
             page.update()
             limpiar_input()
+
             return
 
         estado = evaluar_estado(paquete)
 
-        # 🔴 VENCIDO → DEVOLUCIÓN
+        # 🔴 VENCIDO
         if estado == "VENCIDO":
 
             supabase.table("paquetes").update(
-                {"estatus": "DEVUELTO_BODEGA"}
+                {
+                    "estatus": "DEVUELTO_BODEGA"
+                }
             ).eq("id", paquete["id"]).execute()
 
             resultado.value = "🔴 VENCIDO → DEVUELTO"
             detalle.value = paquete.get("direccion", "")
 
+        # 🟢 ENTREGA
         else:
 
-            # 🟢 ENTREGA AUTOMÁTICA
             supabase.table("entregas").insert(
                 {
                     "paquete_id": paquete["id"],
@@ -116,27 +113,35 @@ def vista_scan(page: ft.Page, usuario: dict, volver):
 
             resultado.value = "✅ ENTREGADO"
             detalle.value = paquete.get("nombre_destinatario", "")
-            beep.play()
 
+        # eliminar del cache
         paquetes_cache.remove(paquete)
 
         page.update()
         limpiar_input()
 
-    # ---------------- LIMPIAR ----------------
+    # ---------------- LIMPIAR INPUT ----------------
     def limpiar_input():
+
         codigo_input.value = ""
         page.update()
         codigo_input.focus()
 
-    # ---------------- CAMARA ----------------
-    
-    def abrir_camara(e):
+    # ---------------- INPUT SCAN ----------------
+    codigo_input = ft.TextField(
+        label="Escanear código o escribir manual",
+        autofocus=True,
+        text_size=20,
+        on_submit=lambda e: procesar_codigo(e.control.value),
+    )
+
+    # ---------------- BOTON CAMARA (OPCIONAL) ----------------
+    def abrir_scanner_externo(e):
 
         page.launch_url(
-            "https://scanqr.org/",
-            web_window_name="_self"
+            "https://zxing.org/w/decode.jspx"
         )
+
     # ---------------- VIEW ----------------
     view = ft.Column(
         [
@@ -150,12 +155,18 @@ def vista_scan(page: ft.Page, usuario: dict, volver):
                     ft.Text("Modo Escaneo", size=20, weight="bold"),
                 ]
             ),
+
+            ft.Container(height=10),
+
             codigo_input,
+
             ft.ElevatedButton(
-                "📷 Escanear con cámara",
-                on_click=abrir_camara,
+                "📷 Abrir scanner de cámara",
+                on_click=abrir_scanner_externo,
             ),
+
             ft.Divider(),
+
             resultado,
             detalle,
         ],
